@@ -1,0 +1,17 @@
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Drawn at half resolution: the mist is soft anyway, and it keeps the frame cheap. */
+#mist {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

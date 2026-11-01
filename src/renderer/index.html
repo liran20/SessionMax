@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'" />
+    <title>SessionMax</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="m-pill">
+    <!-- Small widget: click opens the session waiting on you (or the list); drag to snap it to an edge. -->
+    <div class="pillbar" id="pillbar" title="">
+      <span class="logo"></span>
+      <span class="ptext" id="ptext" dir="auto">All clear</span>
+      <span class="counts" id="pcounts"></span>
+      <button class="plist" id="plist" title="All sessions"><svg viewBox="0 0 16 16"><path d="M4 5.5h8M4 8h8M4 10.5h5" /></svg></button>
+    </div>
+
+
+    <div class="shell" id="shell">
+      <header class="bar" id="bar">
+        <div class="brand">
+          <span class="logo"></span>
+          <span class="title">Sessions</span>
+        </div>
+        <div class="counts" id="counts"></div>
+        <div class="actions">
+          <button class="icon" id="mute" title="Mute sound"></button>
+          <button class="icon" id="pin" title="Keep open"></button>
+          <button class="icon" id="minimize" title="Minimize to the pill"><svg viewBox="0 0 16 16"><path d="M4 11.5h8" /></svg></button>
+          <button class="icon" id="hide" title="Hide widget (tray icon brings it back)">
+            <svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+          </button>
+        </div>
+      </header>
+      <main class="list" id="list">
+        <div class="empty" id="empty" hidden>All clear — nothing waiting on you.<br />New chats show up here as tasks.</div>
+      </main>
+      <footer class="foot" id="foot">
+        <span id="summaryLine"></span>
+        <button class="link" id="closeAll">Close all</button>
+      </footer>
+    </div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

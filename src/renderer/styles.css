@@ -1,0 +1,757 @@
+:root {
+  --bg: rgba(17, 18, 22, 0.94);
+  --card: rgba(255, 255, 255, 0.035);
+  --card-hover: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #f2f3f5;
+  --muted: #9a9ca5;
+  --faint: #6b6d76;
+
+  --working: #6aa8ff;
+  --needs: #ffb020;
+  --done: #3ddc84;
+  --idle: #6b6d76;
+
+  --chip: rgba(255, 255, 255, 0.05);
+  --hover: rgba(255, 255, 255, 0.07);
+  --hover-strong: rgba(255, 255, 255, 0.1);
+  --thumb: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --strong: #d4d5da;
+  --accent: #f0a46e;
+  --danger: #ff8a8a;
+  --working-text: #cfe0ff;
+  --done-text: #bff5d6;
+  --needs-text: #ffe2a8;
+  --done-bg: rgba(17, 30, 22, 0.95);
+  --done-bg-hi: rgba(28, 64, 42, 0.97);
+  --needs-bg: rgba(40, 30, 12, 0.95);
+  --needs-bg-hi: rgba(110, 72, 8, 0.97);
+  --drag-halo: rgba(255, 255, 255, 0.1);
+  /* Shadows and glows must fit inside the window's 8px transparent margin, or the window
+     edge slices them off and they show up as a dark rectangle around the widget. */
+  --shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  --edge: rgba(0, 0, 0, 0.6);
+
+  --radius: 16px;
+  font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  padding: 8px;
+}
+
+.shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow), 0 0 0 0.5px var(--edge);
+  overflow: hidden;
+  transition: box-shadow 0.4s, border-color 0.4s;
+}
+
+.shell.attention {
+  border-color: rgba(255, 176, 32, 0.45);
+  animation: shellGlow 1.6s ease-in-out infinite;
+}
+
+@keyframes shellGlow {
+  50% {
+    box-shadow: var(--shadow), 0 0 0 2px rgba(255, 176, 32, 0.35);
+  }
+}
+
+/* Light Windows theme: follows the system setting live. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: rgba(250, 250, 252, 0.97);
+    --card: rgba(0, 0, 0, 0.035);
+    --card-hover: rgba(0, 0, 0, 0.06);
+    --line: rgba(0, 0, 0, 0.1);
+    --line-strong: rgba(0, 0, 0, 0.2);
+    --text: #1b1c20;
+    --muted: #5d5f68;
+    --faint: #8b8d96;
+
+    --working: #2f72e0;
+    --needs: #c27800;
+    --done: #18a058;
+    --idle: #9a9ca5;
+
+    --chip: rgba(0, 0, 0, 0.05);
+    --hover: rgba(0, 0, 0, 0.06);
+    --hover-strong: rgba(0, 0, 0, 0.09);
+    --thumb: rgba(0, 0, 0, 0.15);
+    --strong: #34363c;
+    --accent: #c4602f;
+    --danger: #d23c3c;
+    --working-text: #1f56b0;
+    --done-text: #0f6e3b;
+    --needs-text: #7a4b00;
+    --done-bg: rgba(236, 249, 241, 0.97);
+    --done-bg-hi: rgba(200, 240, 216, 0.98);
+    --needs-bg: rgba(255, 246, 228, 0.97);
+    --needs-bg-hi: rgba(255, 222, 158, 0.98);
+    --drag-halo: rgba(0, 0, 0, 0.08);
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.14);
+    --edge: rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ---------- header ---------- */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 8px 0 14px;
+  flex: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #d97757, #f0a46e);
+  box-shadow: 0 0 10px rgba(217, 119, 87, 0.6);
+}
+
+.title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.counts {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--chip);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.chip i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.chip.needs {
+  color: var(--needs);
+  background: rgba(255, 176, 32, 0.12);
+}
+.chip.done {
+  color: var(--done);
+  background: rgba(61, 220, 132, 0.12);
+}
+.chip.working {
+  color: var(--working);
+  background: rgba(106, 168, 255, 0.12);
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.icon:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.icon svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#close:hover {
+  background: rgba(255, 80, 80, 0.18);
+  color: #ff8080;
+}
+
+/* ---------- list ---------- */
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list::-webkit-scrollbar {
+  width: 6px;
+}
+.list::-webkit-scrollbar-thumb {
+  background: var(--thumb);
+  border-radius: 3px;
+}
+
+
+.empty {
+  margin: auto;
+  text-align: center;
+  color: var(--faint);
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 24px;
+}
+
+/* ---------- card ---------- */
+.card {
+  --c: var(--idle);
+  flex: none;
+  position: relative;
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  gap: 2px 10px;
+  padding: 10px 12px 11px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.15s, border-color 0.3s, transform 0.15s;
+}
+.card:hover {
+  background: var(--card-hover);
+}
+.card:active {
+  transform: scale(0.99);
+}
+
+.card.working {
+  --c: var(--working);
+}
+.card.needs {
+  --c: var(--needs);
+}
+.card.done {
+  --c: var(--done);
+}
+
+.dot {
+  grid-row: 1 / span 3;
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--c);
+  position: relative;
+}
+
+.card.new .dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--idle);
+}
+
+.card.working .dot::after,
+.card.needs .dot::after,
+.card.done .dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--c);
+  opacity: 0;
+  animation: ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.card.working .dot::after {
+  animation-duration: 2s;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pill {
+  flex: none;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--c);
+}
+.card.new .pill {
+  color: var(--faint);
+  font-weight: 600;
+}
+
+.meta {
+  font-size: 11px;
+  color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summary {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  unicode-bidi: plaintext;
+}
+.card.needs .summary,
+.card.done .summary {
+  color: var(--strong);
+}
+.card.new .summary {
+  -webkit-line-clamp: 1;
+}
+.summary:empty {
+  display: none;
+}
+.summary .lead {
+  color: var(--c);
+  font-weight: 600;
+}
+
+
+/* Done: green glow that breathes until you acknowledge it. */
+.card.done {
+  border-color: rgba(61, 220, 132, 0.4);
+  background: linear-gradient(90deg, rgba(61, 220, 132, 0.1), rgba(61, 220, 132, 0.03));
+  animation: breathe 2.2s ease-in-out infinite;
+}
+@keyframes breathe {
+  50% {
+    box-shadow: 0 0 0 1px rgba(61, 220, 132, 0.35), 0 0 18px rgba(61, 220, 132, 0.22);
+  }
+}
+
+/* Needs you: amber flash — the loudest state. */
+.card.needs {
+  border-color: rgba(255, 176, 32, 0.6);
+  animation: flash 1.1s ease-in-out infinite;
+}
+@keyframes flash {
+  0%,
+  100% {
+    background: rgba(255, 176, 32, 0.07);
+    box-shadow: 0 0 0 0 rgba(255, 176, 32, 0);
+  }
+  50% {
+    background: rgba(255, 176, 32, 0.2);
+    box-shadow: 0 0 0 1px rgba(255, 176, 32, 0.5), 0 0 22px rgba(255, 176, 32, 0.3);
+  }
+}
+
+/* Working: thin moving shimmer along the bottom edge. */
+.card.working::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--working), transparent);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.6s linear infinite;
+  opacity: 0.85;
+}
+@keyframes shimmer {
+  from {
+    background-position: -40% 0;
+  }
+  to {
+    background-position: 140% 0;
+  }
+}
+
+/* Entry highlight when a card just changed into needs/done. */
+.card.fresh {
+  animation: pop 0.5s ease-out, flash 1.1s ease-in-out infinite;
+}
+.card.done.fresh {
+  animation: pop 0.5s ease-out, breathe 2.2s ease-in-out infinite;
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.97);
+  }
+  60% {
+    transform: scale(1.015);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---------- footer ---------- */
+.foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  padding: 0 14px;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--faint);
+}
+.link {
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.link:hover {
+  color: var(--text);
+}
+.link[hidden] {
+  display: none;
+}
+
+/* Close (x) on each card — appears on hover. */
+.x {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: -2px -4px -2px 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s, background 0.12s;
+}
+.x svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  fill: none;
+}
+.card:hover .x {
+  opacity: 1;
+}
+.x:hover {
+  background: var(--hover-strong);
+  color: var(--text);
+}
+
+.card.leaving {
+  opacity: 0;
+  transform: translateX(16px);
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.link.confirm {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* Running sessions can't be closed — they always stay on the board. */
+.card.working .x,
+.card.needs .x {
+  display: none;
+}
+
+/* ---------- modes: pill <-> open panel ---------- */
+.m-pill .shell,
+.m-open .pillbar {
+  display: none;
+}
+
+.shell.unfold {
+  animation: unfold 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Unfold from wherever the pill is snapped. */
+.oh-left .shell {
+  --ox: left;
+}
+.oh-center .shell {
+  --ox: center;
+}
+.oh-right .shell {
+  --ox: right;
+}
+.ov-top .shell {
+  --oy: top;
+}
+.ov-middle .shell {
+  --oy: center;
+}
+.ov-bottom .shell {
+  --oy: bottom;
+}
+.shell {
+  transform-origin: var(--ox, right) var(--oy, bottom);
+}
+@keyframes unfold {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+.icon.on {
+  color: var(--accent);
+}
+
+/* ---------- pill ---------- */
+.pillbar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 10px 0 14px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.pillbar:hover {
+  border-color: var(--line-strong);
+  cursor: pointer;
+}
+.ptext {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  unicode-bidi: plaintext;
+}
+.pillbar .counts {
+  flex: none;
+}
+
+.pillbar.working .ptext {
+  color: var(--working-text);
+}
+.pillbar.working::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--working), transparent);
+  background-size: 40% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.pillbar.done {
+  border-color: rgba(61, 220, 132, 0.55);
+  animation: pillDone 2s ease-in-out infinite;
+}
+.pillbar.done .ptext {
+  color: var(--done-text);
+}
+@keyframes pillDone {
+  0%,
+  100% {
+    background: var(--done-bg);
+  }
+  50% {
+    background: var(--done-bg-hi);
+    box-shadow: var(--shadow), 0 0 6px rgba(61, 220, 132, 0.5);
+  }
+}
+
+.pillbar.needs {
+  border-color: rgba(255, 176, 32, 0.8);
+  animation: pillNeeds 0.9s ease-in-out infinite;
+}
+.pillbar.needs .ptext {
+  color: var(--needs-text);
+}
+@keyframes pillNeeds {
+  0%,
+  100% {
+    background: var(--needs-bg);
+  }
+  50% {
+    background: var(--needs-bg-hi);
+    box-shadow: var(--shadow), 0 0 6px rgba(255, 176, 32, 0.6);
+  }
+}
+
+/* The close button floats over the status label instead of reserving space for it. */
+.head {
+  position: relative;
+}
+.x {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin: -10px -4px 0 0;
+}
+.card:not(.working):not(.needs):hover .pill {
+  opacity: 0;
+}
+
+
+/* ---------- pill: list button + drag feedback ---------- */
+.plist {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-right: -4px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  display: grid;
+  opacity: 0.6;
+  place-items: center;
+  cursor: pointer;
+}
+.plist svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.pillbar:hover .plist {
+  opacity: 1;
+}
+.plist:hover {
+  background: var(--hover-strong);
+  color: var(--text);
+}
+
+.pillbar {
+  transition: transform 0.14s ease-out, opacity 0.14s, border-color 0.14s, box-shadow 0.14s;
+}
+
+/* Lifted while dragging: a soft white halo, nothing more. */
+.dragging .pillbar {
+  cursor: grabbing;
+  transform: translate(var(--px, 0), var(--py, 0)) scale(1.02);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow), 0 0 6px var(--drag-halo);
+}
+.dragging .plist {
+  display: none !important;
+}
+
+
+/* Small bounce when it lands on a snap spot. */
+.pillbar.settle {
+  animation: settle 0.32s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.pillbar.settle.needs {
+  animation: settle 0.32s cubic-bezier(0.3, 1.6, 0.5, 1), pillNeeds 0.9s ease-in-out infinite;
+}
+.pillbar.settle.done {
+  animation: settle 0.32s cubic-bezier(0.3, 1.6, 0.5, 1), pillDone 2s ease-in-out infinite;
+}
+@keyframes settle {
+  0% {
+    transform: scale(0.95);
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+/* Over the taskbar: the pill shrinks and dims as the tray draws it in. */
+.dragging.to-tray .pillbar {
+  transform: translate(var(--px, 0), var(--py, 0)) scale(0.88);
+  opacity: 0.6;
+}

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SessionMax logo options</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" />
+<style>
+  :root { --bg: #f4f5fb; --card: #ffffff; --text: #12142a; --muted: #5b5f7a; --line: rgba(18,20,42,.08); }
+  @media (prefers-color-scheme: dark) { :root { --bg: #070914; --card: #10132a; --text: #eef0ff; --muted: #9aa0c3; --line: rgba(255,255,255,.08); } }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 40px; font-family: Rubik, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 4px; }
+  .lede { color: var(--muted); margin: 0 0 22px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; max-width: 980px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 18px; }
+  .card h2 { font-size: 18px; font-weight: 600; margin: 0 0 4px; }
+  .card p { color: var(--muted); font-size: 14px; line-height: 1.45; margin: 0 0 14px; }
+  .big { display: grid; place-items: center; padding: 10px 0 16px; }
+  .big svg { width: 168px; height: 168px; border-radius: 38px; box-shadow: 0 14px 40px rgba(60, 30, 140, .28); }
+  .sizes { display: flex; align-items: flex-end; gap: 14px; padding: 12px; border-radius: 14px; }
+  .sizes.light { background: #e9ebf5; }
+  .sizes.dark { background: #0b0d1c; margin-top: 8px; }
+  .sizes svg:nth-child(1) { width: 56px; height: 56px; border-radius: 14px; }
+  .sizes svg:nth-child(2) { width: 36px; height: 36px; border-radius: 9px; }
+  .sizes svg:nth-child(3) { width: 20px; height: 20px; border-radius: 5px; }
+  .sizes span { font-size: 12px; color: #8a8fb0; margin-left: auto; }
+</style>
+</head>
+<body>
+<h1>SessionMax logo options</h1>
+<p class="lede">Three directions in the app's new aurora colors. Each shows the home-screen icon, then 56 / 36 / 20 px on light and dark. Nothing in the app has changed yet.</p>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="aurora" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed" /><stop offset=".55" stop-color="#c026d3" /><stop offset="1" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="work" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee" /><stop offset="1" stop-color="#6366f1" /></linearGradient>
+    <linearGradient id="ready" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399" /><stop offset="1" stop-color="#a3e635" /></linearGradient>
+    <radialGradient id="night" cx=".3" cy=".2" r="1"><stop offset="0" stop-color="#2a1c5c" /><stop offset=".6" stop-color="#0d1030" /><stop offset="1" stop-color="#070914" /></radialGradient>
+    <radialGradient id="glowC" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#22d3ee" stop-opacity=".55" /><stop offset="1" stop-color="#22d3ee" stop-opacity="0" /></radialGradient>
+    <radialGradient id="glowP" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ec4899" stop-opacity=".5" /><stop offset="1" stop-color="#ec4899" stop-opacity="0" /></radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" /></filter>
+
+    <!-- A: aurora square, white bubble, three status dots -->
+    <symbol id="logoA" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="url(#aurora)" />
+      <circle cx="18" cy="12" r="40" fill="#fff" opacity=".10" />
+      <path d="M26 26h48a10 10 0 0 1 10 10v24a10 10 0 0 1-10 10H46l-14 11v-11h-6a10 10 0 0 1-10-10V36a10 10 0 0 1 10-10z" fill="#fff" />
+      <circle cx="36" cy="48" r="6" fill="#22d3ee" /><circle cx="50" cy="48" r="6" fill="#34d399" /><circle cx="64" cy="48" r="6" fill="#f59e0b" />
+    </symbol>
+
+    <!-- B: night square, two stacked chats in the status gradients -->
+    <symbol id="logoB" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="url(#night)" />
+      <circle cx="30" cy="34" r="34" fill="url(#glowC)" /><circle cx="72" cy="70" r="34" fill="url(#glowP)" />
+      <path d="M22 20h40a9 9 0 0 1 9 9v18a9 9 0 0 1-9 9H38l-11 9v-9h-5a9 9 0 0 1-9-9V29a9 9 0 0 1 9-9z" fill="url(#work)" />
+      <path d="M40 42h40a9 9 0 0 1 9 9v18a9 9 0 0 1-9 9h-5v9l-11-9H40a9 9 0 0 1-9-9V51a9 9 0 0 1 9-9z" fill="url(#ready)" stroke="#0d1030" stroke-width="3.5" />
+      <path d="M47 60l6 6 13-13" fill="none" stroke="#0d1030" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <!-- C: night square, glowing gradient ring (like a working chat) around a bubble -->
+    <symbol id="logoC" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="url(#night)" />
+      <circle cx="50" cy="50" r="31" fill="none" stroke="url(#aurora)" stroke-width="7" filter="url(#soft)" opacity=".9" />
+      <circle cx="50" cy="50" r="31" fill="none" stroke="url(#aurora)" stroke-width="6" stroke-linecap="round" stroke-dasharray="150 45" transform="rotate(-70 50 50)" />
+      <circle cx="73.6" cy="70" r="6.5" fill="url(#ready)" stroke="#0d1030" stroke-width="3" />
+      <path d="M38 36h24a7 7 0 0 1 7 7v11a7 7 0 0 1-7 7H49l-9 7v-7h-2a7 7 0 0 1-7-7V43a7 7 0 0 1 7-7z" fill="#fff" />
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grid">
+  <div class="card">
+    <h2>A · Aurora bubble</h2>
+    <p>The main-action gradient as the background, one white chat bubble, and three dots in the status colors: working, ready, needs you. The closest to the current icon, so it's still easy to find.</p>
+    <div class="big"><svg><use href="#logoA" /></svg></div>
+    <div class="sizes light"><svg><use href="#logoA" /></svg><svg><use href="#logoA" /></svg><svg><use href="#logoA" /></svg><span>light</span></div>
+    <div class="sizes dark"><svg><use href="#logoA" /></svg><svg><use href="#logoA" /></svg><svg><use href="#logoA" /></svg><span>dark</span></div>
+  </div>
+  <div class="card">
+    <h2>B · Stacked chats</h2>
+    <p>Two overlapping chats on a night background with aurora light: a cyan one that's working and a green one that's done (✓). It says "many sessions" best, but it gets busy at 20 px.</p>
+    <div class="big"><svg><use href="#logoB" /></svg></div>
+    <div class="sizes light"><svg><use href="#logoB" /></svg><svg><use href="#logoB" /></svg><svg><use href="#logoB" /></svg><span>light</span></div>
+    <div class="sizes dark"><svg><use href="#logoB" /></svg><svg><use href="#logoB" /></svg><svg><use href="#logoB" /></svg><span>dark</span></div>
+  </div>
+  <div class="card">
+    <h2>C · Status ring</h2>
+    <p>A chat bubble inside the same glowing ring the app draws around a working chat, with a green "ready" dot. Matches the app the most, but it's the darkest on a dark home screen.</p>
+    <div class="big"><svg><use href="#logoC" /></svg></div>
+    <div class="sizes light"><svg><use href="#logoC" /></svg><svg><use href="#logoC" /></svg><svg><use href="#logoC" /></svg><span>light</span></div>
+    <div class="sizes dark"><svg><use href="#logoC" /></svg><svg><use href="#logoC" /></svg><svg><use href="#logoC" /></svg><span>dark</span></div>
+  </div>
+</div>
+</body>
+</html>
