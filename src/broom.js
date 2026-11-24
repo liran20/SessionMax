@@ -36,14 +36,12 @@ function broomCards(closed, since) {
   const data = read();
   const latest = new Map();
   for (const n of (data && data.notes) || []) latest.set(n.tag, n);
-  const iconCwd = (data && data.open && data.open.cwd) || '';
-  const iconCwd = (data && data.open && data.open.cwd) || '';
   const cards = [];
   for (const n of latest.values()) {
     const at = Date.parse(n.at) || 0;
     if (at <= since || at <= (closed[n.tag] || 0)) continue;
     const id = PREFIX + n.tag;
-    cards.push({ sessionId: id, hostSessionId: id, broom: true, name: `🧹 ${n.title}`, project: 'Broom', iconCwd, iconCwd, state: 'done', lastText: n.body, statusUpdatedAt: at, turnStartedAt: at });
+    cards.push({ sessionId: id, hostSessionId: id, broom: true, name: `🧹 ${n.title}`, project: 'Broom', state: 'done', lastText: n.body, statusUpdatedAt: at, turnStartedAt: at });
   }
   return cards;
 }
