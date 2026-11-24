@@ -9,6 +9,10 @@ const path = require('path');
 
 const SKIP_DIRS = /^(node_modules|\.git|\.claude|\.next|dist|out|out-[\w-]+|release|coverage|fixtures|tests?|qa|screenshots|renders|tmp|temp|cache|vendor)$/i;
 const LOGO_FILE = /^(favicon|logo|icon|app-icon|apple-touch-icon)([-_.][\w-]*)?\.(svg|png|ico|jpe?g|webp)$/i;
+// Broom's folder holds two looks: Broom app's purple broom, and the engine's broom on fire. The app's wins.
+const PREFERRED_LOGO = /(^|[\\/])broom-app[\\/]icon\.png$/i;
+// Broom's folder holds two looks: Broom app's purple broom, and the engine's broom on fire. The app's wins.
+const PREFERRED_LOGO = /(^|[\\/])broom-app[\\/]icon\.png$/i;
 const MAX_DEPTH = 4;
 const MAX_BYTES = 2 * 1024 * 1024;
 
@@ -77,6 +81,8 @@ function findLogos(cwd) {
   };
   walk(cwd, 0);
   const score = (f) =>
+    (PREFERRED_LOGO.test(f.rel) ? 100 : 0) +
+    (PREFERRED_LOGO.test(f.rel) ? 100 : 0) +
     (f.name.endsWith('.svg') ? 30 : 0) +
     (f.name.includes('logo') ? 20 : 0) +
     (/512|192|180|apple-touch|maskable/.test(f.name) ? 8 : 0) +
